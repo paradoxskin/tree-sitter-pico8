@@ -1,8 +1,8 @@
 pico-8 cartridge // http://www.pico-8.com
 version 41
 __lua__
-tmp = function (asf, asf, zxc)
-    asf = asf
-    return function b(asf)end
-end
 __gfx__
+0101010101010
+__map__
+123123123
+__sfx__

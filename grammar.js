@@ -15,17 +15,21 @@ module.exports = grammar({
         lua: $ => seq(
             "__lua__",
             repeat(choice(
-                $.expression,
-                $.assign_expression,
-                $.return_expression
+                $.statement
             ))
         ),
         gfx: $ => seq(
             "__gfx__",
+            repeat(choice(
+                $.color0, $.color1, $.color2, $.color3,
+                $.color4, $.color5, $.color6, $.color7,
+                $.color8, $.color9, $.colora, $.colorb,
+                $.colorc, $.colord, $.colore, $.colorf,
+            ))
         ),
-        _map: () => seq("__map__"),
-        _sfx: () => seq("__sfx__"),
-        _music: () => seq("__music__"),
+        _map: () => seq("__map__", repeat(/[0-9a-f]/)),
+        _sfx: () => seq("__sfx__", repeat(/[0-9a-f]/)),
+        _music: () => seq("__music__", repeat(/[0-9a-f]/)),
 
         line_comment_lua: () => /--.*/,
         line_comment_normal: () => /\/\/.*/,
@@ -37,10 +41,11 @@ module.exports = grammar({
         ),
 
         // expression
-        variable: () => /[a-zA-Z][0-9a-zA-Z_]*/,
+        variable: () => /[a-zA-Z_][0-9a-zA-Z_]*/,
         still_variable: $ => choice(
             $.variable,
             prec.left(13, seq($.still_variable, '.', $.variable)),
+            prec.left(13, seq($.still_variable, ':', $.variable)), // fn_call actly
             prec.left(13, seq($.still_variable, '[', field('key', $.expression), ']')), //table
         ),
         base: $ => choice(
@@ -91,7 +96,6 @@ module.exports = grammar({
                 ([op, pri]) => prec.right(pri, seq($.expression, op, $.expression))
             ),
         ),
-        fn_call: $ => prec.left(13, seq(field('fn_name', $.expression), '(', repeat(seq(field('fn_param', $.expression), ',')), optional(field('fn_param', $.expression)), ')')),
         unary_expression: $ => choice(
             ...[
                 ['-', 11], ['~', 11], ['not', 11], ['@', 11], ['%', 11], ['$', 11],
@@ -101,6 +105,7 @@ module.exports = grammar({
             prec.left(14, seq('(', $.expression, ')')), // bucket
         ),
         assign_expression: $ => seq(
+            optional("local"),
             field('var', $.still_variable),
             choice(
                 '=',
@@ -123,7 +128,14 @@ module.exports = grammar({
         ),
         statement: $ => choice(
             $.fn_define,
+            $.fn_call,
             $.assign_expression,
+            $.for_statement,
+            $.while_statement,
+            $.if_statement,
+            $.repeat_statement,
+            $.goto,
+            $.label,
         ),
         fn_define: $ => seq(
             'function',
@@ -135,8 +147,115 @@ module.exports = grammar({
             ))),
             'end'
         ),
-
-        
+        fn_call: $ => prec.left(13, seq(field('fn_name', $.expression), '(', repeat(seq(field('fn_param', $.expression), ',')), optional(field('fn_param', $.expression)), ')')),
+        break: () => 'break',
+        goto: $ => seq(
+            'goto',
+            /\w+/
+        ),
+        label: () => /::\w+::/,
+        for_statement: $ => seq(
+            'for',
+            choice(
+                seq(
+                    field('iterator', $.variable),
+                    '=',
+                    field('start', $.expression),
+                    ',',
+                    field('end', $.expression),
+                    optional(seq(',', field('step', $.expression)))
+                ),
+                seq(
+                    field('iter_index', $.variable),
+                    ',',
+                    field('iter_value', $.variable),
+                    'in',
+                    choice('pairs', 'ipairs'),
+                    '(', field('table_name', $.expression), ')',
+                ),
+                seq(
+                    field('iterator', $.variable),
+                    'in',
+                    'all',
+                    '(', field('table_name', $.expression), ')',
+                ),
+            ),
+            'do',
+            field('for_body', repeat(choice($.statement, $.break))),
+            'end',
+        ),
+        while_statement: $ => seq(
+            'while',
+            choice(
+                seq( // line while
+                    '(', field('condition', $.expression), ')',
+                    field('while_body', repeat(choice($.statement, $.break))),
+                    '\n'
+                ),
+                seq( // block while
+                    field('condition', $.expression),
+                    'do',
+                    field('while_body', repeat(choice($.statement, $.break))),
+                    'end'
+                ),
+            )
+        ),
+        if_statement: $ => seq(
+            'if',
+            choice(
+                seq( // block if
+                    field('condition', $.expression),
+                    'then',
+                    field('if_body', repeat($.statement)),
+                    optional( // elseif
+                        seq(
+                            'elseif',
+                            field('elseif_condition', $.expression),
+                            'then',
+                            field('elseif_body', repeat($.statement)),
+                        )
+                    ),
+                    optional(
+                        seq(
+                            'else',
+                            field('else_body', repeat($.statement)),
+                        )
+                    ),
+                    'end'
+                ),
+                seq( // line if
+                    '(', field('condition', $.expression), ')',
+                    repeat($.statement),
+                    optional(seq(
+                            'else',
+                            repeat1($.statement)
+                    )),
+                    '\n'
+                )
+            )
+        ),
+        repeat_statement: $ => seq(
+            'repeat',
+            field('repeat_body', repeat(choice($.statement, $.break))),
+            'until',
+            field('condition', $.expression)
+        ),
+        color0: () => '0',
+        color1: () => '1',
+        color2: () => '2',
+        color3: () => '3',
+        color4: () => '4',
+        color5: () => '5',
+        color6: () => '6',
+        color7: () => '7',
+        color8: () => '8',
+        color9: () => '9',
+        colora: () => 'a',
+        colorb: () => 'b',
+        colorc: () => 'c',
+        colord: () => 'd',
+        colore: () => 'e',
+        colorf: () => 'f',
     },
 
     extras: $ => [
@@ -147,5 +266,6 @@ module.exports = grammar({
     ],
     word: $ => $.variable,
     conflicts: $ => [
+        [$.statement, $.expression],
     ]
 });
