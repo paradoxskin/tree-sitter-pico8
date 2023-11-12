@@ -1,13 +1,12 @@
 {
   "name": "pico8",
-  "word": "variable",
   "rules": {
     "p8file": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_title"
+          "name": "title"
         },
         {
           "type": "SYMBOL",
@@ -22,7 +21,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_map"
+              "name": "map"
             },
             {
               "type": "BLANK"
@@ -34,7 +33,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_sfx"
+              "name": "sfx"
             },
             {
               "type": "BLANK"
@@ -46,7 +45,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_music"
+              "name": "music"
             },
             {
               "type": "BLANK"
@@ -55,7 +54,7 @@
         }
       ]
     },
-    "_title": {
+    "title": {
       "type": "STRING",
       "value": "pico-8 cartridge // http://www.pico-8.com\nversion 41"
     },
@@ -161,7 +160,7 @@
         }
       ]
     },
-    "_map": {
+    "map": {
       "type": "SEQ",
       "members": [
         {
@@ -177,7 +176,7 @@
         }
       ]
     },
-    "_sfx": {
+    "sfx": {
       "type": "SEQ",
       "members": [
         {
@@ -193,7 +192,7 @@
         }
       ]
     },
-    "_music": {
+    "music": {
       "type": "SEQ",
       "members": [
         {
@@ -1084,6 +1083,23 @@
           }
         },
         {
+          "type": "PREC_RIGHT",
+          "value": 11,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "#"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              }
+            ]
+          }
+        },
+        {
           "type": "PREC_LEFT",
           "value": 14,
           "content": {
@@ -1339,8 +1355,25 @@
               "type": "FIELD",
               "name": "def_name",
               "content": {
-                "type": "SYMBOL",
-                "name": "variable"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "variable"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "_init"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "_update"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "_draw"
+                  }
+                ]
               }
             },
             {
@@ -1425,12 +1458,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "FIELD",
-            "name": "fn_name",
-            "content": {
-              "type": "SYMBOL",
-              "name": "expression"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "fn_name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "expression"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "builtin",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "builtin"
+                }
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -2007,6 +2053,471 @@
             "type": "SYMBOL",
             "name": "expression"
           }
+        }
+      ]
+    },
+    "builtin": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "load"
+        },
+        {
+          "type": "STRING",
+          "value": "sspr"
+        },
+        {
+          "type": "STRING",
+          "value": "save"
+        },
+        {
+          "type": "STRING",
+          "value": "ls"
+        },
+        {
+          "type": "STRING",
+          "value": "run"
+        },
+        {
+          "type": "STRING",
+          "value": "stop"
+        },
+        {
+          "type": "STRING",
+          "value": "assert"
+        },
+        {
+          "type": "STRING",
+          "value": "reset"
+        },
+        {
+          "type": "STRING",
+          "value": "flip"
+        },
+        {
+          "type": "STRING",
+          "value": "printh"
+        },
+        {
+          "type": "STRING",
+          "value": "time"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
+          "type": "STRING",
+          "value": "stat"
+        },
+        {
+          "type": "STRING",
+          "value": "extcmd"
+        },
+        {
+          "type": "STRING",
+          "value": "clip"
+        },
+        {
+          "type": "STRING",
+          "value": "pset"
+        },
+        {
+          "type": "STRING",
+          "value": "pget"
+        },
+        {
+          "type": "STRING",
+          "value": "sget"
+        },
+        {
+          "type": "STRING",
+          "value": "sset"
+        },
+        {
+          "type": "STRING",
+          "value": "fget"
+        },
+        {
+          "type": "STRING",
+          "value": "fset"
+        },
+        {
+          "type": "STRING",
+          "value": "print"
+        },
+        {
+          "type": "STRING",
+          "value": "cursor"
+        },
+        {
+          "type": "STRING",
+          "value": "color"
+        },
+        {
+          "type": "STRING",
+          "value": "cls"
+        },
+        {
+          "type": "STRING",
+          "value": "camera"
+        },
+        {
+          "type": "STRING",
+          "value": "circ"
+        },
+        {
+          "type": "STRING",
+          "value": "circfill"
+        },
+        {
+          "type": "STRING",
+          "value": "oval"
+        },
+        {
+          "type": "STRING",
+          "value": "ovalfill"
+        },
+        {
+          "type": "STRING",
+          "value": "line"
+        },
+        {
+          "type": "STRING",
+          "value": "rect"
+        },
+        {
+          "type": "STRING",
+          "value": "rectfill"
+        },
+        {
+          "type": "STRING",
+          "value": "pal"
+        },
+        {
+          "type": "STRING",
+          "value": "palt"
+        },
+        {
+          "type": "STRING",
+          "value": "spr"
+        },
+        {
+          "type": "STRING",
+          "value": "fillp"
+        },
+        {
+          "type": "STRING",
+          "value": "add"
+        },
+        {
+          "type": "STRING",
+          "value": "del"
+        },
+        {
+          "type": "STRING",
+          "value": "deli"
+        },
+        {
+          "type": "STRING",
+          "value": "count"
+        },
+        {
+          "type": "STRING",
+          "value": "all"
+        },
+        {
+          "type": "STRING",
+          "value": "foreach"
+        },
+        {
+          "type": "STRING",
+          "value": "pairs"
+        },
+        {
+          "type": "STRING",
+          "value": "btn"
+        },
+        {
+          "type": "STRING",
+          "value": "btnp"
+        },
+        {
+          "type": "STRING",
+          "value": "sfx"
+        },
+        {
+          "type": "STRING",
+          "value": "music"
+        },
+        {
+          "type": "STRING",
+          "value": "mget"
+        },
+        {
+          "type": "STRING",
+          "value": "mset"
+        },
+        {
+          "type": "STRING",
+          "value": "map"
+        },
+        {
+          "type": "STRING",
+          "value": "tline"
+        },
+        {
+          "type": "STRING",
+          "value": "peek"
+        },
+        {
+          "type": "STRING",
+          "value": "poke"
+        },
+        {
+          "type": "STRING",
+          "value": "memcpy"
+        },
+        {
+          "type": "STRING",
+          "value": "reload"
+        },
+        {
+          "type": "STRING",
+          "value": "cstore"
+        },
+        {
+          "type": "STRING",
+          "value": "memset"
+        },
+        {
+          "type": "STRING",
+          "value": "max"
+        },
+        {
+          "type": "STRING",
+          "value": "min"
+        },
+        {
+          "type": "STRING",
+          "value": "mid"
+        },
+        {
+          "type": "STRING",
+          "value": "flr"
+        },
+        {
+          "type": "STRING",
+          "value": "ceil"
+        },
+        {
+          "type": "STRING",
+          "value": "cos"
+        },
+        {
+          "type": "STRING",
+          "value": "sin"
+        },
+        {
+          "type": "STRING",
+          "value": "sqrt"
+        },
+        {
+          "type": "STRING",
+          "value": "abs"
+        },
+        {
+          "type": "STRING",
+          "value": "rnd"
+        },
+        {
+          "type": "STRING",
+          "value": "srand"
+        },
+        {
+          "type": "STRING",
+          "value": "menuitem"
+        },
+        {
+          "type": "STRING",
+          "value": "tostr"
+        },
+        {
+          "type": "STRING",
+          "value": "tonum"
+        },
+        {
+          "type": "STRING",
+          "value": "chr"
+        },
+        {
+          "type": "STRING",
+          "value": "ord"
+        },
+        {
+          "type": "STRING",
+          "value": "sub"
+        },
+        {
+          "type": "STRING",
+          "value": "split"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "cartdata"
+        },
+        {
+          "type": "STRING",
+          "value": "dget"
+        },
+        {
+          "type": "STRING",
+          "value": "dset"
+        },
+        {
+          "type": "STRING",
+          "value": "setmetatable"
+        },
+        {
+          "type": "STRING",
+          "value": "getmetatable"
+        },
+        {
+          "type": "STRING",
+          "value": "rawset"
+        },
+        {
+          "type": "STRING",
+          "value": "rawget"
+        },
+        {
+          "type": "STRING",
+          "value": "rawlen"
+        },
+        {
+          "type": "STRING",
+          "value": "cocreate"
+        },
+        {
+          "type": "STRING",
+          "value": "coresume"
+        },
+        {
+          "type": "STRING",
+          "value": "costatus"
+        },
+        {
+          "type": "STRING",
+          "value": "yield"
+        },
+        {
+          "type": "STRING",
+          "value": "_init"
+        },
+        {
+          "type": "STRING",
+          "value": "_update"
+        },
+        {
+          "type": "STRING",
+          "value": "_draw"
+        },
+        {
+          "type": "STRING",
+          "value": "ipairs"
+        },
+        {
+          "type": "STRING",
+          "value": "pack"
+        },
+        {
+          "type": "STRING",
+          "value": "unpac"
+        },
+        {
+          "type": "STRING",
+          "value": "next"
+        },
+        {
+          "type": "STRING",
+          "value": "peek2"
+        },
+        {
+          "type": "STRING",
+          "value": "peek4"
+        },
+        {
+          "type": "STRING",
+          "value": "poke2"
+        },
+        {
+          "type": "STRING",
+          "value": "poke4"
+        },
+        {
+          "type": "STRING",
+          "value": "serial"
+        },
+        {
+          "type": "STRING",
+          "value": "atan2"
+        },
+        {
+          "type": "STRING",
+          "value": "band"
+        },
+        {
+          "type": "STRING",
+          "value": "bnot"
+        },
+        {
+          "type": "STRING",
+          "value": "bor"
+        },
+        {
+          "type": "STRING",
+          "value": "bxor"
+        },
+        {
+          "type": "STRING",
+          "value": "lshr"
+        },
+        {
+          "type": "STRING",
+          "value": "rotl"
+        },
+        {
+          "type": "STRING",
+          "value": "rotr"
+        },
+        {
+          "type": "STRING",
+          "value": "sgn"
+        },
+        {
+          "type": "STRING",
+          "value": "shl"
+        },
+        {
+          "type": "STRING",
+          "value": "shr"
+        },
+        {
+          "type": "STRING",
+          "value": "rawequal"
+        },
+        {
+          "type": "STRING",
+          "value": "select"
+        },
+        {
+          "type": "STRING",
+          "value": "trace"
         }
       ]
     },

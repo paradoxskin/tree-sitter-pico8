@@ -4,14 +4,14 @@ module.exports = grammar({
 
     rules: {
         p8file: $ => seq(
-            $._title,
+            $.title,
             $.lua,
             $.gfx,
-            optional($._map),
-            optional($._sfx),
-            optional($._music),
+            optional($.map),
+            optional($.sfx),
+            optional($.music),
         ),
-        _title: () => "pico-8 cartridge // http://www.pico-8.com\nversion 41",
+        title: () => "pico-8 cartridge // http://www.pico-8.com\nversion 41",
         lua: $ => seq(
             "__lua__",
             repeat(choice(
@@ -27,9 +27,9 @@ module.exports = grammar({
                 $.colorc, $.colord, $.colore, $.colorf,
             ))
         ),
-        _map: () => seq("__map__", repeat(/[0-9a-f]/)),
-        _sfx: () => seq("__sfx__", repeat(/[0-9a-f]/)),
-        _music: () => seq("__music__", repeat(/[0-9a-f]/)),
+        map: () => seq("__map__", repeat(/[0-9a-f]/)),
+        sfx: () => seq("__sfx__", repeat(/[0-9a-f]/)),
+        music: () => seq("__music__", repeat(/[0-9a-f]/)),
 
         line_comment_lua: () => /--.*/,
         line_comment_normal: () => /\/\/.*/,
@@ -98,7 +98,7 @@ module.exports = grammar({
         ),
         unary_expression: $ => choice(
             ...[
-                ['-', 11], ['~', 11], ['not', 11], ['@', 11], ['%', 11], ['$', 11],
+                ['-', 11], ['~', 11], ['not', 11], ['@', 11], ['%', 11], ['$', 11], ['#', 11]
             ].map(
                 ([op, pri]) => prec.right(pri, seq(op, $.expression))
             ),
@@ -139,7 +139,7 @@ module.exports = grammar({
         ),
         fn_define: $ => seq(
             'function',
-            optional(field('def_name', $.variable)),
+            optional(field('def_name', choice($.variable, '_init', '_update', '_draw'))),
             '(', repeat(seq(field('def_param', $.variable), ',')), optional(field('def_param', $.variable)), ')',
             field('def_body', repeat(choice(
                 $.statement,
@@ -147,7 +147,7 @@ module.exports = grammar({
             ))),
             'end'
         ),
-        fn_call: $ => prec.left(13, seq(field('fn_name', $.expression), '(', repeat(seq(field('fn_param', $.expression), ',')), optional(field('fn_param', $.expression)), ')')),
+        fn_call: $ => prec.left(13, seq(choice(field('fn_name', $.expression), field('builtin', $.builtin)), '(', repeat(seq(field('fn_param', $.expression), ',')), optional(field('fn_param', $.expression)), ')')),
         break: () => 'break',
         goto: $ => seq(
             'goto',
@@ -240,6 +240,28 @@ module.exports = grammar({
             'until',
             field('condition', $.expression)
         ),
+        builtin: () => choice(
+            'load', 'sspr', 'save', 'ls', 'run', 'stop',
+            'assert', 'reset', 'flip', 'printh', 'time', 't',
+            'stat', 'extcmd', 'clip', 'pset', 'pget', 'sget',
+            'sset', 'fget', 'fset', 'print', 'cursor', 'color',
+            'cls', 'camera', 'circ', 'circfill', 'oval', 'ovalfill',
+            'line', 'rect', 'rectfill', 'pal', 'palt', 'spr',
+            'fillp', 'add', 'del', 'deli', 'count', 'all',
+            'foreach', 'pairs', 'btn', 'btnp', 'sfx', 'music',
+            'mget', 'mset', 'map', 'tline', 'peek', 'poke',
+            'memcpy', 'reload', 'cstore', 'memset', 'max', 'min',
+            'mid', 'flr', 'ceil', 'cos', 'sin', 'sqrt',
+            'abs', 'rnd', 'srand', 'menuitem', 'tostr', 'tonum',
+            'chr', 'ord', 'sub', 'split', 'type', 'cartdata',
+            'dget', 'dset', 'setmetatable', 'getmetatable', 'rawset', 'rawget',
+            'rawlen', 'cocreate', 'coresume', 'costatus', 'yield', '_init',
+            '_update', '_draw', 'ipairs', 'pack', 'unpac', 'next',
+            'peek2', 'peek4', 'poke2', 'poke4', 'serial', 'atan2',
+            'band', 'bnot', 'bor', 'bxor', 'lshr', 'rotl',
+            'rotr', 'sgn', 'shl', 'shr', 'rawequal', 'select',
+            'trace',
+        ),
         color0: () => '0',
         color1: () => '1',
         color2: () => '2',
@@ -264,7 +286,6 @@ module.exports = grammar({
         $.line_comment_normal,
         $.block_comment
     ],
-    word: $ => $.variable,
     conflicts: $ => [
         [$.statement, $.expression],
     ]

@@ -15,5 +15,17 @@
   },
   "scripts": {
     "test": "tree-sitter test"
-  }
+  },
+    "tree-sitter": [
+        {
+            "scope": "source.p8",
+            "file-types": [
+                "pico8",
+                "p8"
+            ],
+            "highlights": [
+                "queries/highlights.scm"
+            ]
+        }
+    ]
 }

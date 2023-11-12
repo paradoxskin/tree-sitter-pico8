@@ -73,6 +73,11 @@
     "fields": {}
   },
   {
+    "type": "builtin",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -115,9 +120,19 @@
     "type": "fn_call",
     "named": true,
     "fields": {
+      "builtin": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "builtin",
+            "named": true
+          }
+        ]
+      },
       "fn_name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expression",
@@ -159,6 +174,18 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "_draw",
+            "named": false
+          },
+          {
+            "type": "_init",
+            "named": false
+          },
+          {
+            "type": "_update",
+            "named": false
+          },
           {
             "type": "variable",
             "named": true
@@ -429,6 +456,16 @@
     }
   },
   {
+    "type": "map",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "music",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "number",
     "named": true,
     "fields": {}
@@ -447,6 +484,22 @@
         },
         {
           "type": "lua",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "music",
+          "named": true
+        },
+        {
+          "type": "sfx",
+          "named": true
+        },
+        {
+          "type": "title",
           "named": true
         }
       ]
@@ -496,6 +549,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "sfx",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "statement",
@@ -649,6 +707,10 @@
   },
   {
     "type": "!=",
+    "named": false
+  },
+  {
+    "type": "#",
     "named": false
   },
   {
@@ -852,6 +914,26 @@
     "named": false
   },
   {
+    "type": "_draw",
+    "named": false
+  },
+  {
+    "type": "_init",
+    "named": false
+  },
+  {
+    "type": "_update",
+    "named": false
+  },
+  {
+    "type": "abs",
+    "named": false
+  },
+  {
+    "type": "add",
+    "named": false
+  },
+  {
     "type": "all",
     "named": false
   },
@@ -860,12 +942,84 @@
     "named": false
   },
   {
+    "type": "assert",
+    "named": false
+  },
+  {
+    "type": "atan2",
+    "named": false
+  },
+  {
+    "type": "band",
+    "named": false
+  },
+  {
     "type": "block_comment",
     "named": true
   },
   {
+    "type": "bnot",
+    "named": false
+  },
+  {
+    "type": "bor",
+    "named": false
+  },
+  {
     "type": "break",
     "named": true
+  },
+  {
+    "type": "btn",
+    "named": false
+  },
+  {
+    "type": "btnp",
+    "named": false
+  },
+  {
+    "type": "bxor",
+    "named": false
+  },
+  {
+    "type": "camera",
+    "named": false
+  },
+  {
+    "type": "cartdata",
+    "named": false
+  },
+  {
+    "type": "ceil",
+    "named": false
+  },
+  {
+    "type": "chr",
+    "named": false
+  },
+  {
+    "type": "circ",
+    "named": false
+  },
+  {
+    "type": "circfill",
+    "named": false
+  },
+  {
+    "type": "clip",
+    "named": false
+  },
+  {
+    "type": "cls",
+    "named": false
+  },
+  {
+    "type": "cocreate",
+    "named": false
+  },
+  {
+    "type": "color",
+    "named": false
   },
   {
     "type": "color0",
@@ -932,7 +1086,47 @@
     "named": true
   },
   {
+    "type": "coresume",
+    "named": false
+  },
+  {
+    "type": "cos",
+    "named": false
+  },
+  {
+    "type": "costatus",
+    "named": false
+  },
+  {
+    "type": "count",
+    "named": false
+  },
+  {
+    "type": "cstore",
+    "named": false
+  },
+  {
+    "type": "cursor",
+    "named": false
+  },
+  {
+    "type": "del",
+    "named": false
+  },
+  {
+    "type": "deli",
+    "named": false
+  },
+  {
+    "type": "dget",
+    "named": false
+  },
+  {
     "type": "do",
+    "named": false
+  },
+  {
+    "type": "dset",
     "named": false
   },
   {
@@ -948,7 +1142,27 @@
     "named": false
   },
   {
+    "type": "extcmd",
+    "named": false
+  },
+  {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "fget",
+    "named": false
+  },
+  {
+    "type": "fillp",
+    "named": false
+  },
+  {
+    "type": "flip",
+    "named": false
+  },
+  {
+    "type": "flr",
     "named": false
   },
   {
@@ -956,7 +1170,19 @@
     "named": false
   },
   {
+    "type": "foreach",
+    "named": false
+  },
+  {
+    "type": "fset",
+    "named": false
+  },
+  {
     "type": "function",
+    "named": false
+  },
+  {
+    "type": "getmetatable",
     "named": false
   },
   {
@@ -980,6 +1206,10 @@
     "named": true
   },
   {
+    "type": "line",
+    "named": false
+  },
+  {
     "type": "line_comment_lua",
     "named": true
   },
@@ -988,7 +1218,63 @@
     "named": true
   },
   {
+    "type": "load",
+    "named": false
+  },
+  {
     "type": "local",
+    "named": false
+  },
+  {
+    "type": "ls",
+    "named": false
+  },
+  {
+    "type": "lshr",
+    "named": false
+  },
+  {
+    "type": "map",
+    "named": false
+  },
+  {
+    "type": "max",
+    "named": false
+  },
+  {
+    "type": "memcpy",
+    "named": false
+  },
+  {
+    "type": "memset",
+    "named": false
+  },
+  {
+    "type": "menuitem",
+    "named": false
+  },
+  {
+    "type": "mget",
+    "named": false
+  },
+  {
+    "type": "mid",
+    "named": false
+  },
+  {
+    "type": "min",
+    "named": false
+  },
+  {
+    "type": "mset",
+    "named": false
+  },
+  {
+    "type": "music",
+    "named": false
+  },
+  {
+    "type": "next",
     "named": false
   },
   {
@@ -1004,7 +1290,99 @@
     "named": false
   },
   {
+    "type": "ord",
+    "named": false
+  },
+  {
+    "type": "oval",
+    "named": false
+  },
+  {
+    "type": "ovalfill",
+    "named": false
+  },
+  {
+    "type": "pack",
+    "named": false
+  },
+  {
     "type": "pairs",
+    "named": false
+  },
+  {
+    "type": "pal",
+    "named": false
+  },
+  {
+    "type": "palt",
+    "named": false
+  },
+  {
+    "type": "peek",
+    "named": false
+  },
+  {
+    "type": "peek2",
+    "named": false
+  },
+  {
+    "type": "peek4",
+    "named": false
+  },
+  {
+    "type": "pget",
+    "named": false
+  },
+  {
+    "type": "poke",
+    "named": false
+  },
+  {
+    "type": "poke2",
+    "named": false
+  },
+  {
+    "type": "poke4",
+    "named": false
+  },
+  {
+    "type": "print",
+    "named": false
+  },
+  {
+    "type": "printh",
+    "named": false
+  },
+  {
+    "type": "pset",
+    "named": false
+  },
+  {
+    "type": "rawequal",
+    "named": false
+  },
+  {
+    "type": "rawget",
+    "named": false
+  },
+  {
+    "type": "rawlen",
+    "named": false
+  },
+  {
+    "type": "rawset",
+    "named": false
+  },
+  {
+    "type": "rect",
+    "named": false
+  },
+  {
+    "type": "rectfill",
+    "named": false
+  },
+  {
+    "type": "reload",
     "named": false
   },
   {
@@ -1012,7 +1390,107 @@
     "named": false
   },
   {
+    "type": "reset",
+    "named": false
+  },
+  {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "rnd",
+    "named": false
+  },
+  {
+    "type": "rotl",
+    "named": false
+  },
+  {
+    "type": "rotr",
+    "named": false
+  },
+  {
+    "type": "run",
+    "named": false
+  },
+  {
+    "type": "save",
+    "named": false
+  },
+  {
+    "type": "select",
+    "named": false
+  },
+  {
+    "type": "serial",
+    "named": false
+  },
+  {
+    "type": "setmetatable",
+    "named": false
+  },
+  {
+    "type": "sfx",
+    "named": false
+  },
+  {
+    "type": "sget",
+    "named": false
+  },
+  {
+    "type": "sgn",
+    "named": false
+  },
+  {
+    "type": "shl",
+    "named": false
+  },
+  {
+    "type": "shr",
+    "named": false
+  },
+  {
+    "type": "sin",
+    "named": false
+  },
+  {
+    "type": "split",
+    "named": false
+  },
+  {
+    "type": "spr",
+    "named": false
+  },
+  {
+    "type": "sqrt",
+    "named": false
+  },
+  {
+    "type": "srand",
+    "named": false
+  },
+  {
+    "type": "sset",
+    "named": false
+  },
+  {
+    "type": "sspr",
+    "named": false
+  },
+  {
+    "type": "stat",
+    "named": false
+  },
+  {
+    "type": "stop",
+    "named": false
+  },
+  {
+    "type": "sub",
+    "named": false
+  },
+  {
+    "type": "t",
     "named": false
   },
   {
@@ -1020,7 +1498,39 @@
     "named": false
   },
   {
+    "type": "time",
+    "named": false
+  },
+  {
+    "type": "title",
+    "named": true
+  },
+  {
+    "type": "tline",
+    "named": false
+  },
+  {
+    "type": "tonum",
+    "named": false
+  },
+  {
+    "type": "tostr",
+    "named": false
+  },
+  {
+    "type": "trace",
+    "named": false
+  },
+  {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "unpac",
     "named": false
   },
   {
@@ -1033,6 +1543,10 @@
   },
   {
     "type": "while",
+    "named": false
+  },
+  {
+    "type": "yield",
     "named": false
   },
   {
