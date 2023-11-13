@@ -2,6 +2,10 @@
 
 * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 
+optional:
+
+* [aerial.nvim](https://github.com/stevearc/aerial.nvim)
+
 ## USAGE
 
 ```lua
